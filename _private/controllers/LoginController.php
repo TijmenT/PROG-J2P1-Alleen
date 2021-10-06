@@ -10,19 +10,12 @@ namespace Website\Controllers;
  * Geeft de gegevens aan de "view" laag (HTML template) om weer te geven
  *
  */
-class WebsiteController {
+class LoginController {
 
-	public function home() {
-
-		$template_engine = get_template_engine();
-		echo $template_engine->render('homepage');
-
-	}
-
-	public function admin() {
+	public function login() {
 
 		$template_engine = get_template_engine();
-		echo $template_engine->render('admin');
+		echo $template_engine->render('login');
 
 	}
 

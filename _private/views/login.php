@@ -14,9 +14,17 @@
 </div>
 <?php $this->stop()?>
 
-<h1>Welkom</h1> 
-
-<p>Dit is de start van jullie project website!</p>
+<html>
+    <body>
+        <form action = "logincheck.php" method="POST">
+            Gebruikersnaam<br>
+            <input type = "text" name = "user"><br>
+            Wachtwoord<br>
+            <input type ="password" name = "pass"><br>
+            <input type ="submit" value = "Inloggen!">
+        </form>
+    </body>
+</html>
 
 
 
