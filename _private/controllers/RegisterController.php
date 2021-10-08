@@ -87,5 +87,12 @@ class RegisterController {
 	}
 	}
 
+	public function login() {
+
+		$template_engine = get_template_engine();
+		echo $template_engine->render('login');
+
+	}
+
 }
 
