@@ -16,7 +16,7 @@
 
 <html>
     <body>
-        <form action = "logincheck.php" method="POST">
+        <form action ="<?php echo url('login.handle') ?>" method="POST">
             Gebruikersnaam<br>
             <input type = "text" name = "user"><br>
             Wachtwoord<br>

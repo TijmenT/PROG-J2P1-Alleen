@@ -19,5 +19,12 @@ class LoginController {
 
 	}
 
+	public function handleLoginForm() {
+
+		$template_engine = get_template_engine();
+		echo $template_engine->render('login');
+
+	}
+
 }
 
