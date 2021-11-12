@@ -13,14 +13,24 @@ SimpleRouter::group( [ 'prefix' => site_url() ], function () {
 
 	SimpleRouter::get( '/', 'WebsiteController@home' )->name( 'home' );
 
-
-	SimpleRouter::get( '/admin', 'WebsiteController@admin' )->name( 'admin' );
+	SimpleRouter::get( '/contact', 'WebsiteController@contact')->name('contact');
+	SimpleRouter::get( '/overons', 'WebsiteController@overons' )->name( 'overons' );
+	SimpleRouter::get( '/wordtransformer', 'WebsiteController@wordtransformer' )->name( 'wordtransformer' );
+	
 	SimpleRouter::get( '/register', 'RegisterController@registrationForm' )->name( 'register.form' );
 	SimpleRouter::post( '/register/verwerken', 'RegisterController@registrationprocess' )->name( 'register.process' );
-	// login routes
-	
-	SimpleRouter::get( '/login', 'LoginController@login' )->name( 'login.form' );
+
+	SimpleRouter::get( '/login', 'LoginController@loginForm' )->name( 'login.form' );
 	SimpleRouter::post( '/login/verwerken', 'LoginController@handleLoginForm' )->name( 'login.handle' );
+	SimpleRouter::get('/ingelogd/dashboard', 'LoginController@userDashboard')->name( 'login.dashboard' );
+	SimpleRouter::get('/logout', 'LoginController@logout')->name( 'logout' );
+
+	SimpleRouter::get( '/blog', 'BlogController@blog' )->name( 'blog' );
+	SimpleRouter::get( '/blog/post', 'BlogController@postMaken' )->name( 'blog.post' );
+	SimpleRouter::post( '/blog/post/handle', 'BlogController@postVerwerken' )->name( 'post.handle' );
+
+
+
 
 	// STOP: Tot hier al je eigen URL's zetten, dit stukje laat de 4040 pagina zien als een route/url niet kan worden gevonden.
 	SimpleRouter::get( '/not-found', function () {

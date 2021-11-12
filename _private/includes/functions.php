@@ -86,3 +86,159 @@ function current_route_is( $name ) {
 	return false;
 
 }
+
+function validateRegistationData($data) {
+
+	$errors = [];
+
+	$email = filter_var( $data['email'], FILTER_VALIDATE_EMAIL );
+	$firstname = trim( $data['firstname'] );
+	$lastname = trim( $data['lastname'] );
+	$username = trim( $data['username'] );
+	$password = trim( $data['password'] );
+	
+	if ( $email == false ) {
+		$errors['email'] = 'Geen geldig email ingevuld';
+	}
+
+	if ( strlen( $username ) <2 ) {
+		$errors['username'] = 'Geen geldige username';
+	}
+
+	if ( strlen( $password ) <2 ) {
+		$errors['password'] = 'Geen geldig wachtwoord';
+	}
+
+	if ( strlen( $firstname ) >20 ) {
+		$errors['firstname'] = 'Geen geldig voornaam';
+	}
+
+	if ( strlen( $lastname ) >20 ) {
+		$errors['lastname'] = 'Geen geldige achternaam';
+	}
+
+	
+
+	$data = [
+		'email' => $email,
+		'password' => $password,
+		'firstname' => $firstname,
+		'lastname' => $lastname,
+		'username' => $username
+	];
+
+	return [
+		'data' => $data,
+		'errors' => $errors
+	];
+
+}
+
+function validateLoginData($data) {
+
+	$errors = [];
+
+	$email = filter_var( $data['email'], FILTER_VALIDATE_EMAIL );
+	$password = trim( $data['password'] );
+	
+	if ( $email == false ) {
+		$errors['email'] = 'Geen geldig email ingevuld';
+	}
+	if ( strlen( $password ) <6 ) {
+		$errors['password'] = 'Geen geldig wachtwoord';
+	}
+
+
+	
+
+	$data = [
+		'email' => $email,
+		'password' => $password
+	];
+
+	return [
+		'data' => $data,
+		'errors' => $errors
+	];
+
+}
+
+function userNotRegistered($email) {
+ 
+// Checken of de gebruiker al bestaat
+ 
+$connection = dbConnect();
+$sql = "SELECT * FROM `users` WHERE `email` = :email";
+$statement = $connection->prepare($sql);
+$statement->execute(['email' => $email]);
+ 
+$num_rows = $statement->rowCount();
+ 
+return ($num_rows === 0); // True of false
+ 
+}
+
+	
+
+function createUser($email, $password, $firstname, $lastname, $username){
+	
+	$connection = dbConnect();
+	$sql = "INSERT INTO `users` (`email`, `password`, `firstname`, `lastname`, `username`) VALUES (:email, :password, :firstname, :lastname, :username)";
+			$statement = $connection->prepare( $sql );
+			$safe_password = password_hash( $password, PASSWORD_DEFAULT);
+			$params = [
+				'email' => $email,
+				'password' => $safe_password,
+				'firstname' => $firstname,
+				'lastname' => $lastname,
+				'username' => $username
+			]; 
+			$statement->execute( $params );
+			header("Location: /login");
+			die();
+			
+			
+
+}
+
+function loginUser($user){
+	$_SESSION['user_id'] = $user['id'];
+}
+
+function logoutUser(){
+	unset($_SESSION['user_id']);
+}
+
+function isLoggedIn(){
+	return !empty($_SESSION['user_id']);
+}
+
+function loginCheck() {
+	if ( ! isLoggedin() ) {
+		$login_url = url( 'login.form' );
+		redirect( $login_url);
+	}
+}
+
+function getLoggedInUsername(){
+	$username = "niet ingelogd";
+	if ( ! isLoggedin() ) {
+		return $username;
+	}
+
+	$user_id = $_SESSION['user_id'];
+	$user = GetUserById($user_id);
+
+	if ($user){
+		$username = $user['username'];
+	}
+	return $username;
+}
+
+function getAllPosts(){
+	$connection = dbConnect();
+	$sql = "SELECT * FROM `blog`";
+	$statement = $connection->query($sql);
+	$blog = $statement->fetchAll();
+	print_r($blog); exit;
+}

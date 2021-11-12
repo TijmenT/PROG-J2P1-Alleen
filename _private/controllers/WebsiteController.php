@@ -19,12 +19,22 @@ class WebsiteController {
 
 	}
 
-	public function admin() {
+	public function overons() {
 
 		$template_engine = get_template_engine();
-		echo $template_engine->render('admin');
+		echo $template_engine->render('overons');
+	}
 
+	public function wordtransformer() {
+
+		$template_engine = get_template_engine();
+		echo $template_engine->render('wordtransformer');
+	}
+
+	public function contact() {
+
+		$template_engine = get_template_engine();
+		echo $template_engine->render('contact');
 	}
 
 }
-
